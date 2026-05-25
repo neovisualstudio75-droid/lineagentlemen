@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Runtime oficial de Next.js para Netlify (App Router, SSR, middleware y
+# server actions). Netlify lo instala automáticamente al detectar Next.js.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
