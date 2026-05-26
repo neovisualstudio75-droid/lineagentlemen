@@ -22,7 +22,6 @@ import { ChevronLeft, ChevronRight } from "@/components/icons";
 
 /* ─── tipos ──────────────────────────────────────────────── */
 type Cita = import("@/lib/types").AppointmentWithRelations;
-type Bloqueo = import("@/lib/types").BlockedSlot;
 
 /* ─── badges de estado ───────────────────────────────────── */
 const ESTADO_STYLES: Record<EstadoCita, string> = {
