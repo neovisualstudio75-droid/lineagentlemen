@@ -53,6 +53,27 @@ export async function getDayBlocks(
   return (data ?? []) as BlockedSlot[];
 }
 
+/** Devuelve TODAS las citas (de cualquier peluquero) en un rango de fechas. */
+export async function getMonthAppointments(
+  desde: string,
+  hasta: string,
+): Promise<AppointmentWithRelations[]> {
+  const { supabase, ok } = await requireAdmin();
+  if (!ok) return [];
+
+  const { data } = await supabase
+    .from("appointments")
+    .select(
+      "*, barbers(id, nombre, foto_url), profiles(nombre, apellidos, telefono)",
+    )
+    .gte("fecha", desde)
+    .lte("fecha", hasta)
+    .order("fecha")
+    .order("hora_inicio");
+
+  return (data ?? []) as AppointmentWithRelations[];
+}
+
 export async function setAppointmentStatus(
   id: string,
   estado: EstadoCita,
