@@ -23,6 +23,7 @@ import {
   ClockIcon,
 } from "@/components/icons";
 import { BarberAvatar } from "@/components/booking/BarberAvatar";
+import { FacturacionTab } from "./FacturacionTab";
 
 const ESTADO_STYLES: Record<EstadoCita, string> = {
   pendiente: "bg-amber-500/15 text-amber-400 border-amber-500/30",
@@ -39,6 +40,8 @@ const ESTADO_LABEL: Record<EstadoCita, string> = {
 
 const DIAS_SEMANA = ["L", "M", "X", "J", "V", "S", "D"];
 
+type Tab = "agenda" | "facturacion";
+
 export function AdminDashboard({
   barbers,
   stats,
@@ -48,25 +51,57 @@ export function AdminDashboard({
   stats: { total: number; topBarber: string; topService: string };
   today: string;
 }) {
+  const [tab, setTab] = useState<Tab>("agenda");
   const [selectedBarber, setSelectedBarber] = useState<Barber | null>(null);
 
   return (
     <div>
       {/* Stats globales */}
-      <div className="mb-12 grid gap-4 sm:grid-cols-3">
+      <div className="mb-10 grid gap-4 sm:grid-cols-3">
         <StatCard label="Reservas este mes" value={String(stats.total)} />
         <StatCard label="Peluquero top" value={stats.topBarber} />
         <StatCard label="Servicio top" value={stats.topService} />
       </div>
 
-      {!selectedBarber ? (
-        <BarberGrid barbers={barbers} onSelect={setSelectedBarber} today={today} />
-      ) : (
-        <BarberCalendar
-          barber={selectedBarber}
-          today={today}
-          onBack={() => setSelectedBarber(null)}
-        />
+      {/* Tabs */}
+      <div className="mb-8 flex gap-1 border-b border-line print:hidden">
+        {(
+          [
+            ["agenda", "Agenda"],
+            ["facturacion", "Facturación"],
+          ] as [Tab, string][]
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            onClick={() => {
+              setTab(id);
+              setSelectedBarber(null);
+            }}
+            className={cn(
+              "-mb-px border-b-2 px-5 py-3 text-sm transition-colors",
+              tab === id
+                ? "border-text text-text"
+                : "border-transparent text-muted hover:text-text",
+            )}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "agenda" &&
+        (!selectedBarber ? (
+          <BarberGrid barbers={barbers} onSelect={setSelectedBarber} today={today} />
+        ) : (
+          <BarberCalendar
+            barber={selectedBarber}
+            today={today}
+            onBack={() => setSelectedBarber(null)}
+          />
+        ))}
+
+      {tab === "facturacion" && (
+        <FacturacionTab barbers={barbers} today={today} />
       )}
     </div>
   );
