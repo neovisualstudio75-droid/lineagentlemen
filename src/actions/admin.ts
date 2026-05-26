@@ -39,6 +39,20 @@ export async function getDayAppointments(
   return (data ?? []) as AppointmentWithRelations[];
 }
 
+export async function getDayBlocks(
+  fecha: string,
+): Promise<BlockedSlot[]> {
+  const { supabase, ok } = await requireAdmin();
+  if (!ok) return [];
+
+  const { data } = await supabase
+    .from("blocked_slots")
+    .select("*")
+    .eq("fecha", fecha);
+
+  return (data ?? []) as BlockedSlot[];
+}
+
 export async function setAppointmentStatus(
   id: string,
   estado: EstadoCita,
