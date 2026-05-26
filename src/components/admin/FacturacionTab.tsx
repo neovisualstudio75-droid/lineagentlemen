@@ -417,31 +417,6 @@ function BarberFactDetail({
         </div>
       </div>
 
-      {/* Estilos para impresión */}
-      <style jsx global>{`
-        @media print {
-          body {
-            background: white !important;
-            color: black !important;
-          }
-          header,
-          nav,
-          .btn-primary,
-          .btn-secondary {
-            display: none !important;
-          }
-          #factura-print table {
-            color: black !important;
-          }
-          #factura-print .border-line,
-          #factura-print .border-line\\/30 {
-            border-color: rgba(0, 0, 0, 0.2) !important;
-          }
-          #factura-print .text-muted {
-            color: rgba(0, 0, 0, 0.6) !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }
