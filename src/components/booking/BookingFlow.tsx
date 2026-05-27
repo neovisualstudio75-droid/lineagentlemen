@@ -202,9 +202,9 @@ export function BookingFlow({ barbers }: { barbers: Barber[] }) {
                       setHora(null);
                     }}
                     className={cn(
-                      "flex flex-col items-center border py-3 transition-colors",
+                      "flex flex-col items-center rounded-xl border py-3 transition-all duration-200 active:scale-[0.97]",
                       active
-                        ? "border-text bg-text text-bg"
+                        ? "border-text bg-text text-bg shadow-[0_0_0_3px_rgba(250,250,247,0.08)]"
                         : "border-line text-text hover:border-text/40",
                     )}
                   >
@@ -241,9 +241,9 @@ export function BookingFlow({ barbers }: { barbers: Barber[] }) {
                         disabled={!s.disponible}
                         onClick={() => setHora(s.hora)}
                         className={cn(
-                          "border py-3 text-sm transition-colors",
+                          "rounded-xl border py-3 text-sm transition-all duration-200 active:scale-[0.97]",
                           hora === s.hora
-                            ? "border-text bg-text text-bg"
+                            ? "border-text bg-text text-bg shadow-[0_0_0_3px_rgba(250,250,247,0.08)]"
                             : s.disponible
                               ? "border-line text-text hover:border-text/40"
                               : "cursor-not-allowed border-line/50 text-muted/30 line-through",

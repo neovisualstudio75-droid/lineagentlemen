@@ -373,9 +373,9 @@ function DayCell({
     <button
       onClick={onClick}
       className={cn(
-        "relative flex aspect-square flex-col items-center justify-center border text-sm transition-all",
+        "relative flex aspect-square flex-col items-center justify-center rounded-xl border text-sm transition-all duration-200 active:scale-[0.97]",
         isSelected
-          ? "border-text bg-text text-bg"
+          ? "border-text bg-text text-bg shadow-[0_0_0_3px_rgba(250,250,247,0.08)]"
           : isToday
             ? "border-text/60 text-text"
             : count > 0
@@ -458,9 +458,11 @@ function CitaCard({
 }) {
   const [pending, startTransition] = useTransition();
   const servicio = getService(cita.service)?.nombre ?? cita.service;
-  const nombre = cita.profiles
-    ? `${cita.profiles.nombre} ${cita.profiles.apellidos}`
+  const nombreCompleto = cita.profiles
+    ? `${cita.profiles.nombre} ${cita.profiles.apellidos}`.trim() || "Cliente"
     : "Cliente";
+  const telefono = cita.profiles?.telefono;
+  const email = cita.profiles?.email;
 
   function mark(estado: EstadoCita) {
     startTransition(async () => {
@@ -481,33 +483,41 @@ function CitaCard({
         cita.estado === "cancelada" && "opacity-50",
       )}
     >
-      <div className="flex items-center gap-4 border-b border-line/50 p-5">
-        <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center border border-line">
+      <div className="flex flex-col gap-3 border-b border-line/50 p-5 sm:flex-row sm:items-start sm:gap-4">
+        <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl border border-line">
           <ClockIcon className="h-3 w-3 text-muted" />
           <span className="font-serif text-base leading-none">
             {hhmm(cita.hora_inicio)}
           </span>
         </div>
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-medium">{nombre}</p>
-          <p className="truncate text-xs text-muted">
-            {servicio}
-            {cita.profiles?.telefono && (
-              <>
-                {" · "}
+        <div className="min-w-0 flex-1 space-y-1.5">
+          <p className="truncate font-medium">{nombreCompleto}</p>
+          <p className="truncate text-xs text-muted">{servicio}</p>
+          {(email || telefono) && (
+            <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
+              {email && (
                 <a
-                  href={`tel:${cita.profiles.telefono}`}
-                  className="underline underline-offset-2 hover:text-text"
+                  href={`mailto:${email}`}
+                  className="truncate underline underline-offset-2 hover:text-text"
+                  title={email}
                 >
-                  {cita.profiles.telefono}
+                  {email}
                 </a>
-              </>
-            )}
-          </p>
+              )}
+              {telefono && (
+                <a
+                  href={`tel:${telefono}`}
+                  className="tabular-nums underline underline-offset-2 hover:text-text"
+                >
+                  {telefono}
+                </a>
+              )}
+            </div>
+          )}
         </div>
         <span
           className={cn(
-            "shrink-0 rounded-full border px-2 py-1 text-[0.6rem] uppercase tracking-wider",
+            "shrink-0 self-start rounded-full border px-2 py-1 text-[0.6rem] uppercase tracking-wider",
             ESTADO_STYLES[cita.estado],
           )}
         >

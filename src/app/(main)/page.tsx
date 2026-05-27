@@ -97,7 +97,7 @@ export default function HomePage() {
             </h2>
             <p className="mt-6 flex items-center gap-2 text-sm text-muted">
               <MapPinIcon className="h-4 w-4" />
-              Madrid · Cita previa recomendada
+              Sanlúcar de Barrameda (Cádiz) · Cita previa recomendada
             </p>
             <Link href="/reservar" className="btn-secondary group mt-10">
               Reservar ahora

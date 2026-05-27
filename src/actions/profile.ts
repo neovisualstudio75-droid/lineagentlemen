@@ -36,6 +36,7 @@ export async function saveProfile(input: {
       nombre,
       apellidos,
       telefono,
+      email: user.email ?? null,
     },
     { onConflict: "user_id" },
   );

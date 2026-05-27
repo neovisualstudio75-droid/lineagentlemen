@@ -16,6 +16,7 @@ export type Profile = {
   nombre: string;
   apellidos: string;
   telefono: string;
+  email: string | null;
   rol: Rol;
   created_at: string;
 };
@@ -49,7 +50,10 @@ export type BlockedSlot = {
 
 export type AppointmentWithRelations = Appointment & {
   barbers: Pick<Barber, "id" | "nombre" | "foto_url"> | null;
-  profiles?: Pick<Profile, "nombre" | "apellidos" | "telefono"> | null;
+  profiles?: Pick<
+    Profile,
+    "nombre" | "apellidos" | "telefono" | "email"
+  > | null;
 };
 
 /** Tipado de la base de datos para @supabase/supabase-js. */
