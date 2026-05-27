@@ -16,7 +16,7 @@ export type Profile = {
   nombre: string;
   apellidos: string;
   telefono: string;
-  email: string | null;
+  email?: string | null;
   rol: Rol;
   created_at: string;
 };
