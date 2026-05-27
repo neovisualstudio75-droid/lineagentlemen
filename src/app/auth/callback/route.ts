@@ -32,6 +32,7 @@ export async function GET(request: Request) {
               nombre: meta.nombre as string,
               apellidos: meta.apellidos as string,
               telefono: meta.telefono as string,
+              email: user.email ?? null,
               rol: "cliente",
             });
           } else {

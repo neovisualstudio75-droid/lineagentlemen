@@ -74,6 +74,7 @@ function RegistroInner() {
         nombre: form.nombre.trim(),
         apellidos: form.apellidos.trim(),
         telefono: form.telefono.trim(),
+        email: data.user.email ?? null,
         rol: "cliente",
       });
       router.push(redirect);
