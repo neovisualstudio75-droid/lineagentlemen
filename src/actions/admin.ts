@@ -31,7 +31,7 @@ export async function getDayAppointments(
   const { data } = await supabase
     .from("appointments")
     .select(
-      "*, barbers(id, nombre, foto_url), profiles(nombre, apellidos, telefono, email)",
+      "*, barbers(id, nombre, foto_url), profiles(nombre, apellidos, telefono)",
     )
     .eq("fecha", fecha)
     .order("hora_inicio");
@@ -64,7 +64,7 @@ export async function getMonthAppointments(
   const { data } = await supabase
     .from("appointments")
     .select(
-      "*, barbers(id, nombre, foto_url), profiles(nombre, apellidos, telefono, email)",
+      "*, barbers(id, nombre, foto_url), profiles(nombre, apellidos, telefono)",
     )
     .gte("fecha", desde)
     .lte("fecha", hasta)

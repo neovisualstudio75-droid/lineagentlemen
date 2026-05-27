@@ -458,11 +458,9 @@ function CitaCard({
 }) {
   const [pending, startTransition] = useTransition();
   const servicio = getService(cita.service)?.nombre ?? cita.service;
-  const nombreCompleto = cita.profiles
-    ? `${cita.profiles.nombre} ${cita.profiles.apellidos}`.trim() || "Cliente"
-    : "Cliente";
-  const telefono = cita.profiles?.telefono;
-  const email = cita.profiles?.email;
+  const nombre = cita.profiles?.nombre ?? "";
+  const apellidos = cita.profiles?.apellidos ?? "";
+  const telefono = cita.profiles?.telefono ?? "";
 
   function mark(estado: EstadoCita) {
     startTransition(async () => {
@@ -483,37 +481,50 @@ function CitaCard({
         cita.estado === "cancelada" && "opacity-50",
       )}
     >
-      <div className="flex flex-col gap-3 border-b border-line/50 p-5 sm:flex-row sm:items-start sm:gap-4">
+      <div className="flex flex-col gap-4 border-b border-line/50 p-5 sm:flex-row sm:items-start">
         <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl border border-line">
           <ClockIcon className="h-3 w-3 text-muted" />
           <span className="font-serif text-base leading-none">
             {hhmm(cita.hora_inicio)}
           </span>
         </div>
-        <div className="min-w-0 flex-1 space-y-1.5">
-          <p className="truncate font-medium">{nombreCompleto}</p>
-          <p className="truncate text-xs text-muted">{servicio}</p>
-          {(email || telefono) && (
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
-              {email && (
-                <a
-                  href={`mailto:${email}`}
-                  className="truncate underline underline-offset-2 hover:text-text"
-                  title={email}
-                >
-                  {email}
-                </a>
-              )}
-              {telefono && (
-                <a
-                  href={`tel:${telefono}`}
-                  className="tabular-nums underline underline-offset-2 hover:text-text"
-                >
-                  {telefono}
-                </a>
-              )}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-base font-medium">
+            {(nombre + " " + apellidos).trim() || "Cliente"}
+          </p>
+          <p className="mt-0.5 truncate text-xs text-muted">{servicio}</p>
+
+          <dl className="mt-3 grid grid-cols-1 gap-1.5 text-xs sm:grid-cols-3 sm:gap-x-4">
+            <div>
+              <dt className="text-[0.6rem] uppercase tracking-widest text-muted">
+                Nombre
+              </dt>
+              <dd className="truncate text-text">{nombre || "—"}</dd>
             </div>
-          )}
+            <div>
+              <dt className="text-[0.6rem] uppercase tracking-widest text-muted">
+                Apellidos
+              </dt>
+              <dd className="truncate text-text">{apellidos || "—"}</dd>
+            </div>
+            <div>
+              <dt className="text-[0.6rem] uppercase tracking-widest text-muted">
+                Teléfono
+              </dt>
+              <dd className="truncate">
+                {telefono ? (
+                  <a
+                    href={`tel:${telefono}`}
+                    className="tabular-nums text-text underline underline-offset-2 hover:opacity-70"
+                  >
+                    {telefono}
+                  </a>
+                ) : (
+                  <span className="text-muted">—</span>
+                )}
+              </dd>
+            </div>
+          </dl>
         </div>
         <span
           className={cn(

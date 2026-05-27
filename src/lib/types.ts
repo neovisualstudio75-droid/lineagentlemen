@@ -16,7 +16,6 @@ export type Profile = {
   nombre: string;
   apellidos: string;
   telefono: string;
-  email?: string | null;
   rol: Rol;
   created_at: string;
 };
@@ -50,10 +49,7 @@ export type BlockedSlot = {
 
 export type AppointmentWithRelations = Appointment & {
   barbers: Pick<Barber, "id" | "nombre" | "foto_url"> | null;
-  profiles?: Pick<
-    Profile,
-    "nombre" | "apellidos" | "telefono" | "email"
-  > | null;
+  profiles?: Pick<Profile, "nombre" | "apellidos" | "telefono"> | null;
 };
 
 /** Tipado de la base de datos para @supabase/supabase-js. */
@@ -62,10 +58,7 @@ export interface Database {
     Tables: {
       profiles: {
         Row: Profile;
-        Insert: Omit<Profile, "id" | "created_at" | "rol" | "email"> & {
-          rol?: Rol;
-          email?: string | null;
-        };
+        Insert: Omit<Profile, "id" | "created_at" | "rol"> & { rol?: Rol };
         Update: Partial<Omit<Profile, "id" | "user_id">>;
         Relationships: [];
       };
