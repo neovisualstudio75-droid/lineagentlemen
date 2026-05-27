@@ -62,7 +62,10 @@ export interface Database {
     Tables: {
       profiles: {
         Row: Profile;
-        Insert: Omit<Profile, "id" | "created_at" | "rol"> & { rol?: Rol };
+        Insert: Omit<Profile, "id" | "created_at" | "rol" | "email"> & {
+          rol?: Rol;
+          email?: string | null;
+        };
         Update: Partial<Omit<Profile, "id" | "user_id">>;
         Relationships: [];
       };
