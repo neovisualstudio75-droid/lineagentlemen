@@ -78,9 +78,17 @@ function LoginInner() {
         </div>
 
         <div>
-          <label className="label" htmlFor="password">
-            Contraseña
-          </label>
+          <div className="mb-2 flex items-center justify-between">
+            <label className="label mb-0" htmlFor="password">
+              Contraseña
+            </label>
+            <Link
+              href="/recuperar"
+              className="text-[0.7rem] text-muted underline underline-offset-4 transition-colors hover:text-text"
+            >
+              Restablecer contraseña
+            </Link>
+          </div>
           <input
             id="password"
             className="input"
